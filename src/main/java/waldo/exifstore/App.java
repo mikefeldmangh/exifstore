@@ -2,8 +2,8 @@ package waldo.exifstore;
 
 import java.util.List;
 
-import waldo.exifstore.photoreader.PhotoReader;
-import waldo.exifstore.photoreader.S3PhotoReader;
+import waldo.exifstore.processor.PhotoReader;
+import waldo.exifstore.processor.S3PhotoReader;
 
 /**
  * This application reads in photos from an S3 network store, parses the EXIF data from

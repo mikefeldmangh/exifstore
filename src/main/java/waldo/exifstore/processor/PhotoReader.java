@@ -1,4 +1,4 @@
-package waldo.exifstore.photoreader;
+package waldo.exifstore.processor;
 
 import java.util.List;
 

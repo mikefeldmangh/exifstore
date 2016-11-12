@@ -1,4 +1,4 @@
-package waldo.exifstore.photoreader;
+package waldo.exifstore.processor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +14,9 @@ import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.drew.metadata.Metadata;
+
+import waldo.exifstore.metadata.Extractor;
 
 /**
  * This class is the Amazon S3 implementation of PhotoReader.
@@ -57,7 +60,9 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
                 	   stream = getObjectStream(objectSummary.getKey());
                 	   
                 	   // TODO: process the photo data
+                	   Metadata metadata = Extractor.extract(stream);
                 	   
+                	   stream.close();
                    } catch (Exception e) {
                 	   // Not sure why I'm getting an AmazonServiceException access denied on a couple keys. Maybe those records were made private on purpose?
                 	   System.out.println("Caught an exception reading object with key: " + objectSummary.getKey());
@@ -65,12 +70,6 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
                 		   System.out.println("Error Code: " + ((AmazonServiceException)e).getErrorCode());
                 	   }
                 	   continue;
-                   } finally {
-                	   try {
-                		   stream.close();
-                	   } catch (IOException e) {  
-                		   System.out.println("IOException closing stream");
-                	   }
                    }
                }
                System.out.println("Next Continuation Token : " + result.getNextContinuationToken());

@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface PhotoProcessor<T> {
 
-	List<T> readPhotoData();
+	List<T> processPhotoData();
 }

@@ -37,11 +37,11 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
 	}
 
 	/**
-	 * Reads photo data from AWS S3 bucket.
+	 * Reads photo data from AWS S3 bucket. Extracts the metadata from the photo files. Writes the metadata to a local store.
 	 * Code to list keys taken from amazon example: <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingObjectKeysUsingJava.html</a>
 	 */
 	@Override
-	public List<T> readPhotoData() {
+	public List<T> processPhotoData() {
 		
 		try {
             System.out.println("Listing objects");
@@ -59,7 +59,7 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
                    try {
                 	   stream = getObjectStream(objectSummary.getKey());
                 	   
-                	   // TODO: process the photo data
+                	   // process the photo data
                 	   Metadata metadata = Extractor.extract(stream);
                 	   
                 	   stream.close();

@@ -20,8 +20,8 @@ public class App
 	
     public static void main( String[] args )
     {
-        PhotoProcessor<Object> reader = new S3PhotoProcessor<Object>(BUCKET);
+    	PhotoProcessor<Object> processor = new S3PhotoProcessor<Object>(BUCKET);
         
-        List<Object> photoList = reader.processPhotoData();
+        List<Object> photoList = processor.processPhotoData();
     }
 }

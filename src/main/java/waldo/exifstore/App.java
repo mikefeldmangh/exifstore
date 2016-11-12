@@ -16,13 +16,12 @@ import waldo.exifstore.processor.S3PhotoProcessor;
 public class App 
 {
 	// Move this to configuration when Spring Framework is added.
-//	public static String BUCKET = "http://s3.amazonaws.com/waldo-recruiting";
 	public static String BUCKET = "waldo-recruiting";
 	
     public static void main( String[] args )
     {
         PhotoProcessor<Object> reader = new S3PhotoProcessor<Object>(BUCKET);
         
-        List<Object> photoList = reader.readPhotoData();
+        List<Object> photoList = reader.processPhotoData();
     }
 }

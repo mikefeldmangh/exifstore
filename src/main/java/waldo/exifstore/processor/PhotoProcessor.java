@@ -8,7 +8,7 @@ import java.util.List;
  * @author michaelfeldman
  *
  */
-public interface PhotoReader<T> {
+public interface PhotoProcessor<T> {
 
 	List<T> readPhotoData();
 }

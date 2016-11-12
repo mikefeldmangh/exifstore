@@ -25,13 +25,13 @@ import waldo.exifstore.metadata.Extractor;
  * @param <T>
  *
  */
-public class S3PhotoReader<T> implements PhotoReader<T> {
+public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
 
 	private String bucketName;
 	
 	private AmazonS3 s3client;
 	
-	public S3PhotoReader(String bucketName) {
+	public S3PhotoProcessor(String bucketName) {
 		this.bucketName = bucketName;
 		s3client = new AmazonS3Client(new ProfileCredentialsProvider());
 	}

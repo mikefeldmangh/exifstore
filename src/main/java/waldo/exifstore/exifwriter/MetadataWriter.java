@@ -13,5 +13,5 @@ public interface MetadataWriter {
 	 * Writes the given metadata to a local store. The local store will be configured in each implementation.
 	 * @param metadata
 	 */
-	public void writeMetadataToStore(Metadata metadata);
+	public void writeMetadataToStore(String photoFilename, Metadata metadata);
 }

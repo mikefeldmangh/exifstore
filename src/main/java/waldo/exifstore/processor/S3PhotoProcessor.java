@@ -16,6 +16,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.drew.metadata.Metadata;
 
+import waldo.exifstore.exifwriter.MetadataWriter;
 import waldo.exifstore.metadata.Extractor;
 
 /**
@@ -31,11 +32,19 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
 	
 	private AmazonS3 s3client;
 	
+	private MetadataWriter writer;
+	
+	
 	public S3PhotoProcessor(String bucketName) {
 		this.bucketName = bucketName;
 		s3client = new AmazonS3Client(new ProfileCredentialsProvider());
 	}
 
+	@Override
+	public void setMetadataWriter(MetadataWriter writer) {
+		this.writer = writer;
+	}
+	
 	/**
 	 * Reads photo data from AWS S3 bucket. Extracts the metadata from the photo files. Writes the metadata to a local store.
 	 * Code to list keys taken from amazon example: <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingObjectKeysUsingJava.html</a>
@@ -61,6 +70,8 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
                 	   
                 	   // process the photo data
                 	   Metadata metadata = Extractor.extract(stream);
+                	   
+                	   writer.writeMetadataToStore(objectSummary.getKey(), metadata);
                 	   
                 	   stream.close();
                    } catch (Exception e) {

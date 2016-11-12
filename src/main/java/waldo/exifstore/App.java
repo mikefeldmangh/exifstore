@@ -32,6 +32,7 @@ public class App
     	ElasticSearchMetadataWriter writer = new ElasticSearchMetadataWriter(ES_CLUSTER_NAME, ES_HOSTNAME, ES_PORT);
     	
     	PhotoProcessor<Object> processor = new S3PhotoProcessor<Object>(BUCKET);
+    	processor.setMetadataWriter(writer);
         
         List<Object> photoList = processor.processPhotoData();
     }

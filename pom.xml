@@ -29,5 +29,11 @@
 	    <version>1.11.52</version>
 	</dependency>
     
+	<dependency>
+		<groupId>com.drewnoakes</groupId>
+		<artifactId>metadata-extractor</artifactId>
+		<version>2.9.1</version>
+	</dependency>
+
   </dependencies>
 </project>

@@ -1,5 +1,7 @@
 package waldo.exifstore.photoreader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.amazonaws.AmazonClientException;
@@ -7,8 +9,10 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 /**
@@ -22,8 +26,11 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
 
 	private String bucketName;
 	
+	private AmazonS3 s3client;
+	
 	public S3PhotoReader(String bucketName) {
 		this.bucketName = bucketName;
+		s3client = new AmazonS3Client(new ProfileCredentialsProvider());
 	}
 
 	/**
@@ -33,20 +40,38 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
 	@Override
 	public List<T> readPhotoData() {
 		
-		AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
-		
 		try {
             System.out.println("Listing objects");
             final ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(2);
             ListObjectsV2Result result;
-            do {               
+            do {   
                result = s3client.listObjectsV2(req);
                
-               for (S3ObjectSummary objectSummary : 
-                   result.getObjectSummaries()) {
+               for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
                    System.out.println(" - " + objectSummary.getKey() + "  " +
-                           "(size = " + objectSummary.getSize() + 
-                           ")");
+                           "(size = " + objectSummary.getSize() + ")");
+                   
+                   // get object input stream
+                   InputStream stream = null;
+                   try {
+                	   stream = getObjectStream(objectSummary.getKey());
+                	   
+                	   // TODO: process the photo data
+                	   
+                   } catch (Exception e) {
+                	   // Not sure why I'm getting an AmazonServiceException access denied on a couple keys. Maybe those records were made private on purpose?
+                	   System.out.println("Caught an exception reading object with key: " + objectSummary.getKey());
+                	   if (e instanceof AmazonServiceException) {
+                		   System.out.println("Error Code: " + ((AmazonServiceException)e).getErrorCode());
+                	   }
+                	   continue;
+                   } finally {
+                	   try {
+                		   stream.close();
+                	   } catch (IOException e) {  
+                		   System.out.println("IOException closing stream");
+                	   }
+                   }
                }
                System.out.println("Next Continuation Token : " + result.getNextContinuationToken());
                req.setContinuationToken(result.getNextContinuationToken());
@@ -62,6 +87,7 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
             System.out.println("AWS Error Code:   " + ase.getErrorCode());
             System.out.println("Error Type:       " + ase.getErrorType());
             System.out.println("Request ID:       " + ase.getRequestId());
+            ase.printStackTrace();
         } catch (AmazonClientException ace) {
             System.out.println("Caught an AmazonClientException, " +
             		"which means the client encountered " +
@@ -73,4 +99,9 @@ public class S3PhotoReader<T> implements PhotoReader<T> {
 		return null;
 	}
 
+	private InputStream getObjectStream(String key) throws IOException {
+		S3Object object = s3client.getObject(new GetObjectRequest(bucketName, key));
+		InputStream objectData = object.getObjectContent();
+		return objectData;
+	}
 }

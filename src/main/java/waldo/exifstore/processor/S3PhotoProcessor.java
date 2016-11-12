@@ -50,7 +50,7 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
 	 * Code to list keys taken from amazon example: <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingObjectKeysUsingJava.html</a>
 	 */
 	@Override
-	public List<T> processPhotoData() {
+	public void processPhotoData() {
 		
 		try {
             System.out.println("Listing objects");
@@ -106,7 +106,6 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
                     "such as not being able to access the network.");
             System.out.println("Error Message: " + ace.getMessage());
         }
-		return null;
 	}
 
 	private InputStream getObjectStream(String key) throws IOException {

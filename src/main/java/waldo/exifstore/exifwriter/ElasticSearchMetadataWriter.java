@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -27,7 +28,11 @@ import com.drew.metadata.Tag;
  */
 public class ElasticSearchMetadataWriter implements MetadataWriter {
 
-	public TransportClient client;
+	private TransportClient client;
+	
+	private String docType;
+	
+	private String docIndex;
 	
 	public ElasticSearchMetadataWriter(String clusterName, String hostName, Integer port) {
 		// Set up elastic search host settings
@@ -48,6 +53,14 @@ public class ElasticSearchMetadataWriter implements MetadataWriter {
 		}
 	}
 	
+	public void setDocType (String docType) {
+		this.docType = docType;
+	}
+	
+	public void setDocIndex (String docIndex) {
+		this.docIndex = docIndex;
+	}
+	
 	@Override
 	public void writeMetadataToStore(String photoFilename, Metadata metadata) {
 		
@@ -57,6 +70,7 @@ public class ElasticSearchMetadataWriter implements MetadataWriter {
 			String jsonString = buildJsonFromMap(map);
 			System.out.println(jsonString);
 			
+			IndexResponse response = client.prepareIndex(this.docIndex, this.docType, photoFilename).setSource(jsonString).get();
 			
 		} catch (Exception e) {
 			System.out.println("Failed to save metadata for photo " + photoFilename);
@@ -73,9 +87,9 @@ public class ElasticSearchMetadataWriter implements MetadataWriter {
 			Map<String, String> tagMap = new HashMap<>();
 			
 			String directoryName = directory.getName();
-			System.out.println("Directory: " + directoryName);
+//			System.out.println("Directory: " + directoryName);
 			for (Tag tag : directory.getTags()) {
-		        System.out.println("Tag name = " + tag.getTagName() + ", Tag description = " + tag.getDescription());
+//		        System.out.println("Tag name = " + tag.getTagName() + ", Tag description = " + tag.getDescription());
 		        tagMap.put(tag.getTagName(), tag.getDescription());
 		    }
 			resultMap.put(directoryName, tagMap);

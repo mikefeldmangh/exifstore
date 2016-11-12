@@ -1,7 +1,5 @@
 package waldo.exifstore.processor;
 
-import java.util.List;
-
 import waldo.exifstore.exifwriter.MetadataWriter;
 
 /**
@@ -12,7 +10,7 @@ import waldo.exifstore.exifwriter.MetadataWriter;
  */
 public interface PhotoProcessor<T> {
 
-	List<T> processPhotoData();
+	void processPhotoData();
 	
 	void setMetadataWriter(MetadataWriter writer);
 

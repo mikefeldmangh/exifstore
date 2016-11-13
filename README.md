@@ -14,9 +14,17 @@ This application performs the following:
 
 - Amazon S3 credentials
 - ElasticSearch 5.0.0 installed and running
+- JRE 1.8
+
+#### To Run this Application
+
+1. Build using maven.
+1. Run the main method in App.java.
 
 #### Future improvements:
 
+- Create a maven assembler to build an install package.
+- Create a run script to easily run the application outside of an IDE.
 - Use Spring Framework to make the application more configurable.
 - Use Log4j more and remove print statements.
 - Use of queues so processing can be concurrent.

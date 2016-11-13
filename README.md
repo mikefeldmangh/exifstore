@@ -18,13 +18,19 @@ This application performs the following:
 
 #### To Run this Application
 
+1. Run from an IDE such as Eclipse
+
+Or
+
 1. Build using maven.
-1. Run the main method in App.java.
+1. This will create a zip file called waldo-exif-store-0.0.1-SNAPSHOT-deploy.zip
+1. Copy this file to a directory and unzip it.
+1. Go to the waldo-exif-store/bin directory.
+1. Run the start\_exif\_store.sh file.
+
 
 #### Future improvements:
 
-- Create a maven assembler to build an install package.
-- Create a run script to easily run the application outside of an IDE.
 - Use Spring Framework to make the application more configurable.
 - Use Log4j more and remove print statements.
 - Use of queues so processing can be concurrent.

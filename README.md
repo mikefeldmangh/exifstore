@@ -5,6 +5,7 @@ This application performs the following:
 1. Reads photos from a network store
     - Currently only implemented to read from an Amazon S3 bucket. The bucket name is "waldo-recruiting".
     - Could be extended to read from another type of network store.
+    - There are a couple photos which appear to be private. This problem will be printed out and processing will continue.
 - Extracts the EXIF metadata from the files
     - This library was used: [https://github.com/drewnoakes/metadata-extractor](https://github.com/drewnoakes/metadata-extractor)
 - Writes the metadata to a local store
@@ -27,6 +28,16 @@ Or
 1. Copy this file to a directory and unzip it.
 1. Go to the waldo-exif-store/bin directory.
 1. Run the start\_exif\_store.sh file.
+
+#### Problems
+
+- The conversion to JSON data seems to have trouble converting a date in the metadata.
+- ElasticSearch has a default field limit per doc index of 1000. After the first 1000 photos, nothing will be added to ES. Something more permanent should be put in place. But for now, after running the application once, you can increase the limit after the doc index has been created with the following at the command line and then run the application again:
+
+    curl -XPUT 'http://localhost:9200/waldo/_settings' -d '
+    {
+         "index.mapping.total_fields.limit":5000
+    }'
 
 
 #### Future improvements:

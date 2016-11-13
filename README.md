@@ -37,7 +37,7 @@ Or
 
     curl -XPUT 'http://localhost:9200/waldo/_settings' -d '
     {
-         "index.mapping.total_fields.limit":5000
+        "index.mapping.total_fields.limit":5000
     }'
 
 

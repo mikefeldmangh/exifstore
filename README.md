@@ -47,6 +47,7 @@ Or
 - Use of queues so processing can be concurrent.
 - Implement more types of local stores such as a relational database.
 - If the EXIF directories are not necessary, they can be removed, flattening the data structure some.
+- Add some unit tests.
 
 #### To query data using ElasticSearch
 

@@ -34,6 +34,12 @@ public class ElasticSearchMetadataWriter implements MetadataWriter {
 	
 	private String docIndex;
 	
+	/**
+	 * This constructor creates the ElasticSearch client.
+	 * @param clusterName
+	 * @param hostName
+	 * @param port
+	 */
 	public ElasticSearchMetadataWriter(String clusterName, String hostName, Integer port) {
 		// Set up elastic search host settings
 		Settings esSettings = Settings.builder()

@@ -66,16 +66,18 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
                    // get object input stream
                    InputStream stream = null;
                    try {
+                	   // Get the input stream containing the photo data
                 	   stream = getObjectStream(objectSummary.getKey());
                 	   
-                	   // process the photo data
+                	   // Extract the metadata from the photo
                 	   Metadata metadata = Extractor.extract(stream);
                 	   
+                	   // Write the metadata to the store
                 	   writer.writeMetadataToStore(objectSummary.getKey(), metadata);
                 	   
                 	   stream.close();
                    } catch (Exception e) {
-                	   // Not sure why I'm getting an AmazonServiceException access denied on a couple keys. Maybe those records were made private on purpose?
+                	   // Handle an access denied AmazonServiceException or any other type of exception on individual photos and then continue processing
                 	   System.out.println("Caught an exception reading object with key: " + objectSummary.getKey());
                 	   if (e instanceof AmazonServiceException) {
                 		   System.out.println("Error Code: " + ((AmazonServiceException)e).getErrorCode());
@@ -108,6 +110,12 @@ public class S3PhotoProcessor<T> implements PhotoProcessor<T> {
         }
 	}
 
+	/**
+	 * Given the key name, this method gets the input stream of the data with the key and the bucket name.
+	 * @param key
+	 * @return
+	 * @throws IOException
+	 */
 	private InputStream getObjectStream(String key) throws IOException {
 		S3Object object = s3client.getObject(new GetObjectRequest(bucketName, key));
 		InputStream objectData = object.getObjectContent();

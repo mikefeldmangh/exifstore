@@ -1,7 +1,5 @@
 package waldo.exifstore;
 
-import java.util.List;
-
 import waldo.exifstore.exifwriter.ElasticSearchMetadataWriter;
 import waldo.exifstore.processor.PhotoProcessor;
 import waldo.exifstore.processor.S3PhotoProcessor;
@@ -16,7 +14,7 @@ import waldo.exifstore.processor.S3PhotoProcessor;
  */
 public class App 
 {
-	// Move these to configuration when Spring Framework is added.
+	// Future: Move these to a configuration file when Spring Framework is added.
 	
 	public static final String BUCKET = "waldo-recruiting";
 	

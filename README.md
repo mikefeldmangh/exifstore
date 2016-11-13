@@ -2,14 +2,15 @@
 #### Current Functionality
 
 This application performs the following:
+
 1. Reads photos from a network store
-    - Currently only implemented to read from an Amazon S3 bucket. The bucket name is "waldo-recruiting".
-    - Could be extended to read from another type of network store.
-    - There are a couple photos which appear to be private. This problem will be printed out and processing will continue.
+  - Currently only implemented to read from an Amazon S3 bucket. The bucket name is "waldo-recruiting".
+  - Could be extended to read from another type of network store.
+  - There are a couple photos which appear to be private. This problem will be printed out and processing will continue.
 1. Extracts the EXIF metadata from the files
-    - This library was used: [https://github.com/drewnoakes/metadata-extractor](https://github.com/drewnoakes/metadata-extractor)
+  - This library was used: [https://github.com/drewnoakes/metadata-extractor](https://github.com/drewnoakes/metadata-extractor)
 1. Writes the metadata to a local store
-    - The only type of local store implemented so far is ElasticSearch.
+  - The only type of local store implemented so far is ElasticSearch.
 
 #### Requirements to Run this Application
 

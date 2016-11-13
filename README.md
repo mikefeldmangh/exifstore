@@ -6,9 +6,9 @@ This application performs the following:
     - Currently only implemented to read from an Amazon S3 bucket. The bucket name is "waldo-recruiting".
     - Could be extended to read from another type of network store.
     - There are a couple photos which appear to be private. This problem will be printed out and processing will continue.
-- Extracts the EXIF metadata from the files
+1. Extracts the EXIF metadata from the files
     - This library was used: [https://github.com/drewnoakes/metadata-extractor](https://github.com/drewnoakes/metadata-extractor)
-- Writes the metadata to a local store
+1. Writes the metadata to a local store
     - The only type of local store implemented so far is ElasticSearch.
 
 #### Requirements to Run this Application

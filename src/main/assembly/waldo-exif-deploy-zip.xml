@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>${project.version}-deploy</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<baseDirectory>${run.jar.name}</baseDirectory>
+	
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<fileSets>
+		<!-- Create directory structure layout -->
+		<!-- fileSet>
+			<directory>src/main/assembly</directory>
+			<outputDirectory>/bin</outputDirectory>
+			<excludes>
+				<exclude>*</exclude>
+			</excludes>
+			<directoryMode>0775</directoryMode>
+		</fileSet-->
+		
+		<!-- Assemble bin directory -->
+		<fileSet>
+			<directory>src/main/bin</directory>
+			<outputDirectory>/bin</outputDirectory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+			<filtered>true</filtered>
+			<lineEnding>unix</lineEnding>
+			<directoryMode>0775</directoryMode>
+			<fileMode>0775</fileMode>
+		</fileSet>
+		
+		<!-- Assemble library directory -->
+		<fileSet>
+			<directory>target/dependency-jars</directory>
+			<outputDirectory>/bin/dependency-jars</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	
+	<!-- Move jar file -->
+	<files>
+		<file>
+			<source>target/${project.artifactId}-${project.version}.jar</source>
+			<destName>${run.jar.name}.jar</destName>
+			<outputDirectory>/bin</outputDirectory>
+		</file>
+	</files>
+</assembly>

@@ -36,9 +36,9 @@ Or
 - ElasticSearch has a default field limit per doc index of 1000. After the first 1000 photos, nothing will be added to ES. Something more permanent should be put in place. But for now, after running the application once, you can increase the limit after the doc index has been created with the following at the command line and then run the application again:
 
 ```curl -XPUT 'http://localhost:9200/waldo/_settings' -d '
-    {
-        "index.mapping.total_fields.limit":5000
-    }'
+{
+    "index.mapping.total_fields.limit":5000
+}'
 ```
 
 #### Future improvements:
